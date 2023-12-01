@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Book Directory</title>
+    <!-- 引入 Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container">
+
+    <h2>Book Directory</h2>
+    <hr>
+
+    <h3 class="mb-4">Save Book</h3>
+
+    <form action="#" th:action="@{/books/save}" th:object="${book}" method="POST" >
+
+        <input type="hidden" th:field="*{id}" />
+
+        <input type="text" th:field="*{title}" placeholder="Title" class="form-control mb-4 w-25">
+
+        <input type="text" th:field="*{author}" placeholder="Author" class="form-control mb-4 w-25">
+
+        <input type="text" th:field="*{isbn}" placeholder="ISBN" class="form-control mb-4 w-25">
+
+        <select th:field="*{status}" class="form-control mb-4 w-25">
+            <option value="AVAILABLE">Available</option>
+            <option value="CHECKED_OUT">Checked Out</option>
+            <option value="UNKNOWN">Unknown</option>
+        </select>
+
+
+        <div th:if="${error}" class="alert alert-danger">
+            <p th:text="${error}"></p>
+        </div>
+
+        <div th:if="${#fields.hasErrors('*')}">
+            <ul class ="alert alert-danger">
+                <li th:each="err : ${#fields.allErrors()}" th:text="${err}"></li>
+            </ul>
+        </div>
+
+        <button type="submit" class="btn btn-info col-2">Save</button>
+    </form>
+    <a th:href="@{/books/list}">Back to Book List</a>
+</div>
+
+<!-- 引入 Bootstrap JS 和依赖 -->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+</body>
+</html>

@@ -18,7 +18,7 @@ public class EmployeeServiceImp implements EmployeeService {
 
     @Override
     public List<Employee> getAllEmployees(){
-        return employeeDAO.findAll();
+        return employeeDAO.findAllByOrderByLastNameAsc();
     }
 
     @Override
@@ -27,8 +27,8 @@ public class EmployeeServiceImp implements EmployeeService {
     }
 
     @Override
-    public Employee saveEmployee(Employee employee) {
-        return employeeDAO.save(employee);
+    public void saveEmployee(Employee employee) {
+        employeeDAO.save(employee);
     }
 
     @Override
