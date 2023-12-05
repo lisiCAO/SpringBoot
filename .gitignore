@@ -1,0 +1,35 @@
+# Compiled Java classes
+*.class
+
+# Package Files #
+*.jar
+*.war
+*.nar
+*.ear
+*.zip
+*.tar.gz
+*.rar
+
+# Maven directory
+target/
+
+# Logs and databases #
+*.log
+*.sql
+*.sqlite
+
+# IDE files #
+.idea/
+*.iml
+*.ipr
+*.iws
+.settings/
+.classpath
+.project
+.vscode/
+
+# Mac system files
+.DS_Store
+
+# Temporary files
+*~
