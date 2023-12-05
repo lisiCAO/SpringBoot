@@ -1,11 +1,25 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en"  xmlns:th="https://www.thymeleaf.org"
+                 xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
-    <title>Book</title>
+    <title>Library Management System</title>
     <meta http-equiv="refresh" content="0; URL='books/list'" >
 </head>
 <body>
+<h2>Lisi Library Home Page</h2>
+<hr>
+<p>Welcome to Lisi's Library</p>
+
+<p>
+    User:<span sec:auhentication="principal.username"></span>
+    <br><br>
+    Role(s):<span sec:authentication="principal.authorities"></span>
+</p>
+
+<form action="#" th:action="@{/logout}" method="POST">
+    <input type="submit" value="Logout"/>
+</form>
 
 </body>
 </html>
