@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.annotation.web.configurers.LogoutConfigurer;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -21,9 +22,12 @@ public class SecurityConfig {
     @Bean
     public UserDetailsService userDetailService() {
         JdbcUserDetailsManager manager = new JdbcUserDetailsManager(dataSource);
+        manager.setUsersByUsernameQuery(
+                "select username, password, enabled from user where username = ?"
+        );
         manager.setAuthoritiesByUsernameQuery(
-                "SELECT u.username, r.name FROM user u INNER JOIN user_role ur ON u.id =ur.user_id" +
-                        "INNER JOIN role r ON ur.role_id = r.id WHERE u.username =?");
+                "SELECT u.username, r.name FROM user u INNER JOIN user_role ur ON u.id = ur.user_id " +
+                        "INNER JOIN role r ON ur.role_id = r.id WHERE u.username = ?");
         return manager;
     }
 
@@ -46,7 +50,11 @@ public class SecurityConfig {
                         .loginProcessingUrl("/authenticateTheUser")
                         .permitAll()
                 )
+                .logout(LogoutConfigurer::permitAll)
+                .exceptionHandling(auth->
+                        auth.accessDeniedPage("/access-denied"))
                 .csrf(AbstractHttpConfigurer::disable);
+
         return http.build();
     }
 
