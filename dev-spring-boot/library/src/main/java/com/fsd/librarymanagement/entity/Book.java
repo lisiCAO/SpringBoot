@@ -29,8 +29,9 @@ public class Book {
     private String isbn;
 
     @Enumerated(EnumType.STRING)
-    private BookStatus status = BookStatus.AVAILABLE; ;
+    private BookStatus status = BookStatus.AVAILABLE; // Status of the book, defaults to AVAILABLE
 
+    // Enum to define possible statuses of a book
     public enum BookStatus {
         AVAILABLE,
         CHECKED_OUT,

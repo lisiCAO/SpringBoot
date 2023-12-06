@@ -30,12 +30,13 @@ public class User {
     @Size(min=1, message = "is required")
     private String password;
 
-    // 角色关联
+    // Defines a many-to-many relationship between users and roles
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(
             name = "user_role",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id")
     )
-    private Set<Role> roles = new HashSet<>();
+    private Set<Role> roles = new HashSet<>();// Collection of roles associated with this user
 }
+

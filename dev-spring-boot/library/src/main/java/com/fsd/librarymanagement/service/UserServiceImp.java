@@ -23,15 +23,15 @@ public class UserServiceImp implements UserService {
     @Transactional
     public void save(User user, String roleName) {
         if (userRepository.existsByUsername(user.getUsername())) {
-            throw new CustomException("Username already exists.");
+            throw new CustomException("Username already exists."); // Throw exception if username exists
         }
-        Role role = roleRepository.findByName(roleName); // 查找角色
-        Role employee = roleRepository.findByName("ROLE_EMPLOYEE");
+        Role role = roleRepository.findByName(roleName); // Find the role by name
+        Role employee = roleRepository.findByName("ROLE_EMPLOYEE"); // Find the 'ROLE_EMPLOYEE' role
         if (role != null) {
-            user.getRoles().add(role); // 分配角色
-            user.getRoles().add(employee);
+            user.getRoles().add(role); // Add the found role to the user
+            user.getRoles().add(employee); // Also add 'ROLE_EMPLOYEE' to the user
         }
-        userRepository.save(user);
+        userRepository.save(user); // Save the user to the repository
     }
 
 }

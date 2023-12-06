@@ -3,47 +3,66 @@
 <head>
     <meta charset="UTF-8">
     <title>Leaders Meeting</title>
+    <!-- CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-
+    <link rel="stylesheet" href="/css/custom.css">
 </head>
 <body>
+
+<!-- Nav Bar -->
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <a class="navbar-brand" href="/">Lisi's Library</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
+
     <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav">
-            <li class="nav-item active">
-                <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
-            </li>
-            <li class="nav-item" sec:authorize="hasRole('MANAGER')">
-                <a class="nav-link" th:href="@{/leaders}">Leadership Meeting</a>
-            </li>
-            <li class="nav-item" sec:authorize="hasRole('ADMIN')">
-                <a class="nav-link" th:href="@{/books}">Admin Panel</a>
-            </li>
-            <li>
+        <div class="navbar-nav-container">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item" sec:authorize="hasRole('MANAGER')">
+                    <a class="nav-link" th:href="@{/leaders}">Leadership Meeting</a>
+                </li>
+                <li class="nav-item" sec:authorize="hasRole('ADMIN')">
+                    <a class="nav-link" th:href="@{/books}">Admin Panel</a>
+                </li>
+            </ul>
+            <div class="logout-button-container">
                 <form action="#" th:action="@{/logout}" method="POST">
-                    <input type="submit" value="Logout"/>
+                    <button type="submit" class="logout-button">Logout</button>
                 </form>
-            </li>
-        </ul>
+            </div>
+        </div>
     </div>
 </nav>
-<br>
-<div class="container">
-    <h2>LEADERS HOME PAGE</h2>
-    <hr>
-    <p> THERE IS NOTHING !</p>
-    <a th:href="@{/showCreateUserPage}">Create a new User<br></a>
-    <br>
-    <a th:href="@{/books}">BOOK SYSTEM<br></a>
-    <br>
-</div>
-<a th:href="@{/}">BACK TO HOME PAGE</a>
 
-<!-- import Bootstrap -->
+<br>
+
+<!-- Main -->
+<div class="content-wrap">
+    <div class="welcome-section">
+
+        <h2>Welcome to Leader Page!</h2>
+
+        <div class="user-info">
+           <span> <a th:href="@{/showCreateUserPage}">Create New User<br></a></span>
+            <br>
+            <span > <a th:href="@{/books}">BOOK SYSTEM<br></a></span>
+        </div>
+
+    </div>
+</div>
+
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <p>&copy; 2023 Lisi's Library. All rights reserved.</p>
+    </div>
+</footer>
+
+<!-- Import Bootstrap -->
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>

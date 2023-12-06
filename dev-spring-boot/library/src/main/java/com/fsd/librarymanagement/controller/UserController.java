@@ -1,6 +1,5 @@
 package com.fsd.librarymanagement.controller;
 
-import com.fsd.librarymanagement.entity.Role;
 import com.fsd.librarymanagement.entity.User;
 import com.fsd.librarymanagement.exception.CustomException;
 import com.fsd.librarymanagement.service.UserService;
@@ -12,57 +11,46 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class UserController {
-    private final PasswordEncoder passwordEncoder;
-    private final UserService userService;
+    private final PasswordEncoder passwordEncoder; // Injected PasswordEncoder for encoding passwords
+    private final UserService userService; // Injected UserService for user-related operations
 
+    // Constructor to inject PasswordEncoder and UserService
     public UserController(PasswordEncoder passwordEncoder, UserService userService) {
         this.passwordEncoder = passwordEncoder;
         this.userService = userService;
     }
 
+    // Method to display the user creation page
     @GetMapping("/showCreateUserPage")
     public String showLoginPage(Model theModel) {
-        theModel.addAttribute("user", new User());
-        String role ="";
-        theModel.addAttribute("role", role);
+        theModel.addAttribute("user", new User()); // Add a new User object to the model for form binding
+        String role = "";
+        theModel.addAttribute("role", role); // Add an empty role string to the model for role selection
         return "leaders/create-user";
     }
 
-//    @PostMapping("/createUser")
-//    public String createUser(@RequestParam String username,
-//                             @RequestParam String password,
-//                             @RequestParam String role) {
-//        String encodedPassword = passwordEncoder.encode(password);
-//        User newUser = new User();
-//        newUser.setUsername(username);
-//        newUser.setPassword(encodedPassword);
-//        userService.save(newUser, role);
-//
-//        return "redirect:/leaders"; // Redirect after user creation
-//    }
-
+    // Method to process the user creation form submission
     @PostMapping("/createUser")
     public String createUser(
             @Valid @ModelAttribute("user") User theUser, BindingResult theBindingResult, @ModelAttribute("role")String role
     ){
-        if(theBindingResult.hasErrors()){
-            return "leaders/create-user";
+        if(theBindingResult.hasErrors()){ // Check for validation errors in the form
+            return "leaders/create-user"; // Return to the form in case of validation errors
         }
 
-            String encodedPassword = passwordEncoder.encode(theUser.getPassword());
-            theUser.setPassword(encodedPassword);
+        String encodedPassword = passwordEncoder.encode(theUser.getPassword()); // Encode the user's password
+        theUser.setPassword(encodedPassword); // Set the encoded password to the user object
+
         try {
-            userService.save(theUser, role);
+            userService.save(theUser, role); // Save the user with the specified role using UserService
         } catch (CustomException e) {
-            theBindingResult.rejectValue("username", "error.user", "An account already exists for this username.");
-            return "leaders/create-user";
+            theBindingResult.rejectValue("username", "error.user", "An account already exists for this username."); // Handle custom exception if username already exists
+            return "leaders/create-user"; // Return to the form in case of exception
         }
-            return "leaders/user-confirmation";
+        return "redirect:/leaders/user-confirmation"; // Redirect to a confirmation page after successful user creation
     }
-
 
 }
