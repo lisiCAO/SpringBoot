@@ -27,7 +27,7 @@ public class User {
     private String username;
 
     @NotNull(message = "is required")
-    @Size(min=1, message = "is required")
+    @Size(min=6, message = "min = 6")
     private String password;
 
     // Defines a many-to-many relationship between users and roles

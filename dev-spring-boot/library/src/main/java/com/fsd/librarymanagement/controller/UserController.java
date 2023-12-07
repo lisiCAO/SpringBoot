@@ -17,13 +17,17 @@ public class UserController {
     private final PasswordEncoder passwordEncoder; // Injected PasswordEncoder for encoding passwords
     private final UserService userService; // Injected UserService for user-related operations
 
-    // Constructor to inject PasswordEncoder and UserService
+    /**
+     * Constructor
+     */
     public UserController(PasswordEncoder passwordEncoder, UserService userService) {
         this.passwordEncoder = passwordEncoder;
         this.userService = userService;
     }
 
-    // Method to display the user creation page
+    /**
+     * Method to display the user creation page
+     */
     @GetMapping("/showCreateUserPage")
     public String showLoginPage(Model theModel) {
         theModel.addAttribute("user", new User()); // Add a new User object to the model for form binding
@@ -32,25 +36,30 @@ public class UserController {
         return "leaders/create-user";
     }
 
-    // Method to process the user creation form submission
+    /**
+     * Method to process the user creation form submission
+     */
     @PostMapping("/createUser")
     public String createUser(
             @Valid @ModelAttribute("user") User theUser, BindingResult theBindingResult, @ModelAttribute("role")String role
-    ){
-        if(theBindingResult.hasErrors()){ // Check for validation errors in the form
-            return "leaders/create-user"; // Return to the form in case of validation errors
+    ) {
+        String result = null;
+        if (theBindingResult.hasErrors()) { // Check for validation errors in the form
+            result = "leaders/create-user";// Return to the form in case of validation errors
+        } else {
+            String encodedPassword = passwordEncoder.encode(theUser.getPassword()); // Encode the user's password
+            theUser.setPassword(encodedPassword);
+            try {
+                userService.save(theUser, role); // Save the user with the specified role using UserService
+            } catch (CustomException e) {
+                theBindingResult.rejectValue("username", "error.user", "An account already exists for this username."); // Handle custom exception if username already exists
+                result = "leaders/create-user";// Return to the form in case of exception
+            }
+            if (result == null) {
+                result = "redirect:/leaders/user-confirmation";// Redirect to a confirmation page after successful user creation
+            }
         }
-
-        String encodedPassword = passwordEncoder.encode(theUser.getPassword()); // Encode the user's password
-        theUser.setPassword(encodedPassword); // Set the encoded password to the user object
-
-        try {
-            userService.save(theUser, role); // Save the user with the specified role using UserService
-        } catch (CustomException e) {
-            theBindingResult.rejectValue("username", "error.user", "An account already exists for this username."); // Handle custom exception if username already exists
-            return "leaders/create-user"; // Return to the form in case of exception
-        }
-        return "redirect:/leaders/user-confirmation"; // Redirect to a confirmation page after successful user creation
+        return result;
     }
 
 }

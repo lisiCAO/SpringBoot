@@ -5,7 +5,7 @@
     <title>Leaders Meeting</title>
     <!-- CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/css/custom.css">
+    <link rel="stylesheet" th:href="@{/css/custom.css}">
 </head>
 <body>
 
@@ -46,8 +46,21 @@
 
         <h2>Welcome to Leader Page!</h2>
 
+        <!-- Weather Info -->
+        <div th:if="${weather != null}" class="card my-4">
+            <div class="card-body">
+                <h5 class="card-title">Current Weather</h5>
+                <p class="card-text"><strong><<span th:text="${weather.temperature} + '°C'"></span></strong></p>
+                <p class="card-text"><strong><span th:text="${weather.description}"></span></strong></p>
+                <div class="text-center">
+                    <img th:src="${weather.iconUrl}" alt="Weather Icon" class="img-fluid"/>
+                </div>
+            </div>
+        </div>
+
+
         <div class="user-info">
-           <span> <a th:href="@{/showCreateUserPage}">Create New User<br></a></span>
+           <span> <a th:href="@{/showCreateUserPage}">CREAT USER<br></a></span>
             <br>
             <span > <a th:href="@{/books}">BOOK SYSTEM<br></a></span>
         </div>

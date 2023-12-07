@@ -41,7 +41,6 @@ public class BookController {
         return "books/book-form";
     }
 
-
     /* CRUD */
     @GetMapping("/list")
     public String listBooks(Model theModel) {
@@ -74,5 +73,4 @@ public class BookController {
         bookService.deleteBook(theId);
         return "redirect:/books/list";
     }
-
 }

@@ -9,8 +9,8 @@ import java.util.Set;
 
 @Entity
 @Table(name = "role")
-@Data // lombok's annotation to generate getters, setters, equals, hashCode, and toString methods
-@NoArgsConstructor // lombok's annotation to generate a no-argument constructor
+@Data
+@NoArgsConstructor
 public class Role {
 
     @Id
