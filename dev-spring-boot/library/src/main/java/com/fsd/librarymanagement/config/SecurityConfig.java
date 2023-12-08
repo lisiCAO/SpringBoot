@@ -58,7 +58,8 @@ public class SecurityConfig {
                 .cors(CorsConfigurer::disable)// Disables CORS (Cross-Origin Resource Sharing)
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/").hasRole("EMPLOYEE") // Restricts access to root path to EMPLOYEE role
-                        .requestMatchers("/leaders/**").hasRole("MANAGER") // Restricts access to /leaders/** path to MANAGER role
+                        .requestMatchers("/leaders/**").hasRole("MANAGER")
+                        .requestMatchers("/users/**").hasRole("MANAGER") // Restricts access to /leaders/** path to MANAGER role
                         .requestMatchers("/books/**").hasAnyRole("ADMIN","MANAGER")   // Restricts access to /systems/** path to ADMIN role
                         .anyRequest().authenticated()                        // Ensures all other requests are authenticated
                 )

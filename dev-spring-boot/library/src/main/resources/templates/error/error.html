@@ -5,7 +5,7 @@
   <!-- Bootstrap CSS -->
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
   <!-- Automatically redirect to previous page -->
-  <meta http-equiv="refresh" th:content="'2;url=' + ${redirectUrl}">
+  <meta http-equiv="refresh" th:content="${redirectUrl != null} ?('6;url=' + ${redirectUrl}):'6;url=/'">
 </head>
 <body>
 

@@ -3,13 +3,16 @@ package com.fsd.librarymanagement.service;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fsd.librarymanagement.entity.Weather;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 @Service
 public class WeatherServiceImp implements WeatherService{
+    @Value("${myapp.apikey}")
+    private String apiKey;
     public Weather getWeatherData() {
-        final String uri = "https://api.openweathermap.org/data/2.5/weather?q=Montreal&appid=62db9381276cd3981d9cc2db4bfae141&units=metric&lang=en";
+        final String uri = "https://api.openweathermap.org/data/2.5/weather?q=Montreal&appid={apiKey}&units=metric&lang=en";
         RestTemplate restTemplate = new RestTemplate();
         try {
             String response = restTemplate.getForObject(uri, String.class);

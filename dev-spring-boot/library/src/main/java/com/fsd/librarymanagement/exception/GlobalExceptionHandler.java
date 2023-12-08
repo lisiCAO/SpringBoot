@@ -15,7 +15,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(BookNotFoundException.class)
     public ModelAndView handleBookNotFoundException(BookNotFoundException ex, HttpServletRequest request) {
-        ModelAndView mav = new ModelAndView("error/error");     // Set view to 'error/error'
+        ModelAndView mav = new ModelAndView("/error/error");     // Set view to 'error/error'
         String referer = request.getHeader("Referer");                 // Get the referer URL from the request
         mav.addObject("message", ex.getMessage());            // Add the exception message to the view
         mav.addObject("returnUrl", referer);                  // Add the return URL to the view

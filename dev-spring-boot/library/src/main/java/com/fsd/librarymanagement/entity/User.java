@@ -3,8 +3,7 @@ package com.fsd.librarymanagement.entity;
 import jakarta.persistence.*;
 
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -37,6 +36,6 @@ public class User {
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id")
     )
-    private Set<Role> roles = new HashSet<>();// Collection of roles associated with this user
+    private List<Role> roles;// Collection of roles associated with this user
 }
 
